@@ -1,6 +1,7 @@
 #!/usr/bin/env bun
 
 import { Command } from "commander";
+import { start } from "./tui/start";
 
 const program = new Command();
 
@@ -12,7 +13,7 @@ program.command("start")
   .description("Start the program")
   .action(
     async() => {
-      console.log("Starting CCC-law");
+      start();
     }
   );
 
