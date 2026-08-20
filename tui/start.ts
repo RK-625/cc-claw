@@ -1,5 +1,7 @@
+import { isCancel, select } from "@clack/prompts";
 import chalk from "chalk"
 import figlet from "figlet";
+import { runCLIMode } from "../modes/cli";
 
 const BANNER_FONT = 'ANSI Shadow'
 const SHADOW = chalk.hex('#5b4d9e')
@@ -23,6 +25,27 @@ function printBanner(title: string) {
 
 export async function start() {
   let title: string;
-  title = figlet.textSync("C3CLAW",{font: BANNER_FONT})
+  title = figlet.textSync("C3CLAW", { font: BANNER_FONT })
   printBanner(title)
+
+  const mode = await select({
+    message: "Which mode do you want to use?",
+    options: [
+      { value: "cli", label: "cli" },
+      { value: "telegram", label: "telegram" },
+      { value: "exit", label: "exit" }
+    ],
+  });
+
+  if (isCancel(mode) || mode === "exit") {
+    console.log(chalk.dim('\n Goodbye!\n'))
+    return
+  }
+
+  if (mode === 'cli') {
+    await runCLIMode();
+  } else {
+    console.log("telegram mode")
+  }
+
 }
