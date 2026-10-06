@@ -83,7 +83,7 @@ export async function runApprovalFlow(tracker: ActionTracker): Promise<boolean> 
   }
   if (choice === "all") {
     for (const a of pending) tracker.updateStatus(a.id, "approved", true);
-    return false;
+    return true;
   }
   for(const g of groupPending(pending)) {
     while(true) {
@@ -113,6 +113,7 @@ export async function runApprovalFlow(tracker: ActionTracker): Promise<boolean> 
           opt === 'approve'
         )
       }
+      break;
     }
   }
   return tracker.getActions().some((a) => a.status === "approved");
