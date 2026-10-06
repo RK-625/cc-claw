@@ -2,6 +2,7 @@ import { isCancel, select } from "@clack/prompts";
 import chalk from "chalk"
 import figlet from "figlet";
 import { runCLIMode } from "../modes/cli";
+import { runTelegramBot } from "../modes/telegram";
 
 const BANNER_FONT = 'ANSI Shadow'
 const SHADOW = chalk.hex('#5b4d9e')
@@ -44,8 +45,11 @@ export async function start() {
 
   if (mode === 'cli') {
     await runCLIMode();
-  } else {
-    console.log("telegram mode")
+  } else if (mode === 'telegram') {
+    await runTelegramBot();
+  }
+  else {
+    return;
   }
 
 }
