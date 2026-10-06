@@ -10,7 +10,7 @@ import { runApprovalFlow } from "../agent/approval.ts";
 import { renderTerminalMarkdown } from "../../tui/terminal-md.ts";
 import { generatePlan } from "./planner.ts";
 import { printPlan, selectSteps } from "./selection.ts";
-//import { createWebTools } from "./web-tools.ts";
+import { createWebTools } from "./web-tools.ts";
 import type { PlanStep, Plan } from "./types.ts";
 
 function stepPrompt(goal: string, step: PlanStep): string {
@@ -34,13 +34,14 @@ export async function runPlanMode(): Promise<void> {
   const tracker = new ActionTracker();
   const executor = new ToolExecutor(tracker, config);
   const tools = {
-    ...createAgentTools(executor)
+    ...createAgentTools(executor),
+    ...createWebTools(tracker),
   }
   for (const step of selected) {
-    console.log(chalk.bold('\n ${step.title}\n'));
+    console.log(chalk.bold(`\n ${step.title}\n`));
     const agent = new ToolLoopAgent({ model: getModel(), tools, stopWhen: stepCountIs(30) });
     const result = await agent.generate({ prompt: stepPrompt(plan.goal, step) })
-    if(result.text) return console.log(renderTerminalMarkdown(result.text));
+    if(result.text) console.log(renderTerminalMarkdown(result.text));
   }
   const ok = await runApprovalFlow(tracker);
   if (!ok) return executor.clearStaging()
