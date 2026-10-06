@@ -7,6 +7,7 @@ import { getModel } from "../../ai";
 import { createAgentTools } from "./agent-tools";
 import chalk from "chalk";
 import { renderTerminalMarkdown } from "../../tui/terminal-md";
+import { runApprovalFlow } from "./approval";
 
 export async function runAgentMode() {
   console.log('Agent mode');
