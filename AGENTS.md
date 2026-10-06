@@ -109,3 +109,10 @@ bun --hot ./index.ts
 ```
 
 For more information, read the Bun API docs in `node_modules/bun-types/docs/**.mdx`.
+
+- The user pefers to follow below the commit style here :
+    ```
+  <type>(<scope>): <short description>
+     [optional body]
+     [optional footer]
+    ```
